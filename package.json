@@ -1,7 +1,12 @@
 {
-  "name": "capture-demo",
+  "name": "electron-simple-demo",
   "version": "0.1.0",
   "private": true,
+  "description": "Electron simple demo",
+  "author": {
+    "name": "Inbentus",
+    "email": "m.gonzalez@inbentus.com"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
