@@ -43,7 +43,7 @@ async function createWindow() {
     .then(async (sources) => {
       const firstSource = sources[0].id;
 
-      console.log(`Now we have the first source: ${firstSource}`);
+      console.log(`Main process retrieves first source: ${firstSource}`);
       win.webContents.send("SET_SCREEN_SOURCE", firstSource);
     });
 }
