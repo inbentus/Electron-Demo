@@ -1,0 +1,10 @@
+const UNKNOWN_VALUE = '---';
+
+const SCREEN = {
+  WIDTH: 1366,
+  HEIGHT: 768,
+};
+
+const SECOND_DURATION = 1000;
+
+export { UNKNOWN_VALUE, SCREEN, SECOND_DURATION };
