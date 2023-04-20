@@ -1,6 +1,6 @@
 "use strict";
 
-import { app, protocol, BrowserWindow, desktopCapturer } from "electron";
+import { app, protocol, BrowserWindow, desktopCapturer, ipcMain } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -10,9 +10,10 @@ protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
 
+let win;
 async function createWindow() {
   // Create the browser window.
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 800,
     height: 600,
     fullscreen: true,
@@ -36,17 +37,18 @@ async function createWindow() {
 
   console.log("Process env:");
   console.dir(process.env);
+}
 
-  // ! getSources call crashes in SBC
+ipcMain.on("GET_VIDEO_SOURCE", () => {
   desktopCapturer
-    .getSources({ types: ["window", "screen"] })
+    .getSources({ types: ["window"] })
     .then(async (sources) => {
       const firstSource = sources[0].id;
 
-      console.log(`Main process retrieves first source: ${firstSource}`);
+      console.log('Main process retrieved window source', firstSource);
       win.webContents.send("SET_SCREEN_SOURCE", firstSource);
     });
-}
+});
 
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {

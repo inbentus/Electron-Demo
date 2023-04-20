@@ -4,10 +4,12 @@
 
     <img src="./assets/Rotating_Tux.gif" width="550" />
 
-    {{ recording ? 'Recording!!' : 'Video functionality' }}
+    {{ recording ? "Recording!!" : "Video functionality" }}
+
+    <!-- <video autoplay controls/> -->
 
     <div class="actions">
-      <button  @click="handleRecording">
+      <button @click="handleRecording">
         Click for start/stop recording screen
       </button>
     </div>
@@ -27,10 +29,8 @@ export default {
   methods: {
     async handleRecording() {
       if (schInstance.recording) {
-        this.recording = false
         this.stopRecording()
       } else {
-        this.recording = true
         this.startRecording()
       }
     },
@@ -41,22 +41,27 @@ export default {
 
       await schInstance.createRecording()
       console.log('Recording created')
+
+      this.recording = true
     },
     async stopRecording() {
       console.log('stopRecording')
       const recording = await schInstance.stopRecording()
 
+      this.recording = false
+
       if (recording) {
         console.log('Recording successfully created!')
 
-        const video = {}
-        video.src = URL.createObjectURL(recording);
-        window.location.href = video.src
+        // const video = document.querySelector('video')
+        const videoURL = URL.createObjectURL(recording);
+        // video.src = videoURL
+
+        // Save video
+        window.location.href = videoURL
       } else {
         console.error('Unable to create recording')
       }
-
-
 
       schInstance.releaseRecording()
     }
